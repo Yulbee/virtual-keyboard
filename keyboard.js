@@ -50,10 +50,12 @@ document.body.appendChild(this.elements.main);
 document.body.appendChild(this.elements.description);
 document.body.appendChild(this.elements.language);
 
+this.elements.keys = document.querySelectorAll('.keyboard__key');
+
+
 },
 
 createKeys() {
-
 const fragment = document.createDocumentFragment();
 const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
     'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Del',
@@ -76,6 +78,7 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.addEventListener('click', ( ) => {
                     this.properties.value = this.properties.value.substring(0, this.properties.value.length-1);
                     this.triggerEvent(oninput);
+                    document.querySelector('.textarea').textContent = this.properties.value;
                 });
                 break;
 
@@ -85,6 +88,7 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.addEventListener('click', ( ) => {
                     this.properties.value = this.properties.value.substring(1);
                     this.triggerEvent(oninput);
+                    document.querySelector('.textarea').textContent = this.properties.value;
                 });
                 break;
 
@@ -94,6 +98,7 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.addEventListener('click', ( ) => {
                     this.toggleCapsLock();
                     keyElement.classList.toggle('keyboard__key_active', this.properties.capsLock);
+                    document.querySelector('.textarea').textContent = this.properties.value;
                 });
                 break;
 
@@ -101,8 +106,9 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.classList.add('keyboard__key_wide', 'keyboard__key_dark');
                 keyElement.innerHTML = createIconHTML('keyboard_return');
                 keyElement.addEventListener('click', ( ) => {
-                    this.properties.value +='/n';
+                    this.properties.value +="\n";
                     this.triggerEvent(oninput);
+                    document.querySelector('.textarea').textContent = this.properties.value;
                 });
                     
                  break;
@@ -123,6 +129,7 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.addEventListener('click', () => {
                     this.properties.value +=' ';
                     this.triggerEvent(oninput);
+                    document.querySelector('.textarea').textContent = this.properties.value;
                     });
                         
                 break;
@@ -178,11 +185,16 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.addEventListener('click', () => {
                     this.properties.value += this.properties.capsLock ? key.toLocaleUpperCase() : key.toLocaleLowerCase();
                     this.triggerEvent(oninput);
+                    document.querySelector('.textarea').textContent = this.properties.value;
                     });
                 break;
+
+                
         }
+        
         fragment.appendChild(keyElement)
            })
+
 
            return fragment;
     },
@@ -192,6 +204,14 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
 },
 
 toggleCapsLock() {
+this.properties.capsLock = !this.properties.capsLock;
+
+for (const key of this.elements.keys) {
+
+    if (!(key.classList.contains('keyboard__key_dark') || key.classList.contains('keyboard__key_extra-wide'))) {
+        key.textContent = this.properties.capsLock ? key.textContent.toLocaleUpperCase() : key.textContent.toLocaleLowerCase();
+    }
+}
 
 },
 
@@ -208,4 +228,5 @@ close() {
 window.addEventListener('DOMContentLoaded', function () {
     Keyboard.init();
 }
+
 )
