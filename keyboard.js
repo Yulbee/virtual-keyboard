@@ -50,6 +50,8 @@ document.body.appendChild(this.elements.main);
 document.body.appendChild(this.elements.description);
 document.body.appendChild(this.elements.language);
 
+this.elements.keys = document.querySelectorAll('.keyboard__key');
+
 },
 
 createKeys() {
@@ -192,6 +194,14 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
 },
 
 toggleCapsLock() {
+this.properties.capsLock = !this.properties.capsLock;
+
+for (const key of this.elements.keys) {
+
+    if (!(key.classList.contains('keyboard__key_dark') || key.classList.contains('keyboard__key_extra-wide'))) {
+        key.textContent = this.properties.capsLock ? key.textContent.toLocaleUpperCase() : key.textContent.toLocaleLowerCase();
+    }
+}
 
 },
 
