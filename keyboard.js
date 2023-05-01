@@ -1,5 +1,3 @@
-
-
 const Keyboard = {
     elements: {
       title: null,
@@ -70,6 +68,7 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
     keyLayout.forEach(key => {
         const keyElement = document.createElement('div');
         keyElement.classList.add('keyboard__key');
+        keyElement.setAttribute('keyname', key.toUpperCase());
         
         switch (key) {
             case 'Backspace':
@@ -77,7 +76,6 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.innerHTML = createIconHTML('backspace');
                 keyElement.addEventListener('click', ( ) => {
                     this.properties.value = this.properties.value.substring(0, this.properties.value.length-1);
-                    this.triggerEvent(oninput);
                     document.querySelector('.textarea').textContent = this.properties.value;
                 });
                 break;
@@ -87,7 +85,6 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.textContent = key;
                 keyElement.addEventListener('click', ( ) => {
                     this.properties.value = this.properties.value.substring(1);
-                    this.triggerEvent(oninput);
                     document.querySelector('.textarea').textContent = this.properties.value;
                 });
                 break;
@@ -107,20 +104,15 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.innerHTML = createIconHTML('keyboard_return');
                 keyElement.addEventListener('click', ( ) => {
                     this.properties.value +="\n";
-                    this.triggerEvent(oninput);
                     document.querySelector('.textarea').textContent = this.properties.value;
                 });
-                    
                  break;
 
             case 'Tab':
                 keyElement.classList.add('keyboard__key_wide', 'keyboard__key_dark');
                 keyElement.innerHTML = createIconHTML('sync_alt');
                 keyElement.addEventListener('click', ( ) => {
-                    /*this.properties.value +=' ';*/
-                    this.triggerEvent(oninput);
                 });
-                    
                  break;
 
             case 'Space':
@@ -128,34 +120,33 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.innerHTML = createIconHTML('space_bar');
                 keyElement.addEventListener('click', () => {
                     this.properties.value +=' ';
-                    this.triggerEvent(oninput);
                     document.querySelector('.textarea').textContent = this.properties.value;
                     });
-                        
-                break;
-            case 'Shift':
-                keyElement.classList.add('keyboard__key_wide', 'keyboard__key_dark');
-                keyElement.textContent = key;    
                 break;
 
             case 'Shift':
                 keyElement.classList.add('keyboard__key_wide', 'keyboard__key_dark');
-                keyElement.textContent = key;    
+                keyElement.textContent = key;
+                break;
+
+            case 'Shift':
+                keyElement.classList.add('keyboard__key_wide', 'keyboard__key_dark');
+                keyElement.textContent = key;
                 break;
 
             case 'Win':
                 keyElement.classList.add('keyboard__key_dark');
-                keyElement.textContent = key;    
+                keyElement.textContent = key;
                 break;
 
             case 'Alt':
                 keyElement.classList.add('keyboard__key_dark');
-                keyElement.textContent = key;    
+                keyElement.textContent = key;
                 break;
 
             case 'Ctrl':
                 keyElement.classList.add('keyboard__key_dark');
-                keyElement.textContent = key;    
+                keyElement.textContent = key;
                 break;
 
             case 'Arrow_up':
@@ -178,20 +169,15 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
                 keyElement.innerHTML = createIconHTML('arrow_left');
                 break;
 
-                
-
             default:
                 keyElement.textContent = key;
                 keyElement.addEventListener('click', () => {
-                    this.properties.value += this.properties.capsLock ? key.toLocaleUpperCase() : key.toLocaleLowerCase();
-                    this.triggerEvent(oninput);
+                    this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
                     document.querySelector('.textarea').textContent = this.properties.value;
                     });
                 break;
-
-                
         }
-        
+
         fragment.appendChild(keyElement)
            })
 
@@ -199,9 +185,6 @@ const keyLayout = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
            return fragment;
     },
 
-    triggerEvent() {
-
-},
 
 toggleCapsLock() {
 this.properties.capsLock = !this.properties.capsLock;
@@ -215,18 +198,15 @@ for (const key of this.elements.keys) {
 
 },
 
-open(initialValue, oninput, onclose) {
-
-},
-
-close() {
-
-}
 
 }
 
 window.addEventListener('DOMContentLoaded', function () {
     Keyboard.init();
 }
+);
 
-)
+let keys = document.querySelectorAll('.keyboard__key');
+for (let i = 0; i < keys.length; i++) {
+    console.log(keys);
+}
